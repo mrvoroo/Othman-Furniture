@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>نور | مفروشات وستائر وديوانيات بتفصيل على مقاسك — الكويت</title>
+  <meta name="description" content="نور — جهّز أساس بيتك. كنب وديوانيات وستائر وغرف نوم بتفصيل على مقاسك. احجز استشارتك أو زيارة منزلية مجانية في الكويت." />
+  <meta name="theme-color" content="#14110f" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="topbar" id="topbar">
+    <a class="brand" href="#tour" aria-label="نور"><img src="/logo.svg" alt="" width="34" height="34" /><span>نور</span></a>
+    <nav>
+      <a href="#showcase">المعرض</a>
+      <a href="#services">خدماتنا</a>
+      <a href="#how">كيف نشتغل</a>
+      <a href="#contact" class="pill">احجز استشارتك</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="tour" aria-label="جولة داخل بيت نور">
+      <div class="stage">
+        <canvas id="gl" aria-hidden="true"></canvas>
+        <div class="vignette"></div>
+
+        <div class="loader" id="loader"><img src="/logo.svg" alt="" width="64" height="64" /><span>نور</span></div>
+
+        <div class="chapter" data-from="0" data-to="0.06" data-vfrom="0" data-vto="0.09">
+          <p class="eyebrow">مفروشات • الكويت</p>
+          <h1>جهّز <em>أساس</em> بيتك</h1>
+          <p class="lead">كنب، ديوانيات، ستائر وغرف نوم بتفصيل على مقاسك. اسحب لتدخل البيت.</p>
+        </div>
+        <div class="chapter" data-from="0.07" data-to="0.16" data-vfrom="0.11" data-vto="0.26">
+          <p class="eyebrow">الخطوة الأولى</p>
+          <h2>افتح الباب على <em>بيتك الجديد</em></h2>
+        </div>
+        <div class="chapter" data-from="0.2" data-to="0.3" data-vfrom="0.31" data-vto="0.4">
+          <p class="eyebrow">الصالة</p>
+          <h2>كنب بتفصيل <em>على ذوقك</em></h2>
+          <p class="lead">نختار معاك الخامة واللون والحجم، ونصنعه لمقاس صالتك بالضبط.</p>
+        </div>
+        <div class="chapter" data-from="0.31" data-to="0.375" data-vfrom="0.5" data-vto="0.66">
+          <p class="eyebrow">الستائر</p>
+          <h2>ستائر تنسدل <em>بنعومة</em></h2>
+        </div>
+        <div class="chapter" data-from="0.385" data-to="0.46" data-vfrom="0.41" data-vto="0.47">
+          <p class="eyebrow">التفاصيل</p>
+          <h2>كوشنز وتفاصيل <em>تكمّل المكان</em></h2>
+        </div>
+        <div class="chapter" data-from="0.54" data-to="0.7" data-vfrom="0.72" data-vto="0.84">
+          <p class="eyebrow">غرف النوم</p>
+          <h2>سرير وراحة <em>على أصولها</em></h2>
+          <p class="lead">راس سرير مبطّن، مفارش وستائر بنفس الروح.</p>
+        </div>
+        <div class="chapter" data-from="0.72" data-to="0.86">
+          <p class="eyebrow">الديوانية</p>
+          <h2>ديوانية كويتية <em>بروح أصيلة</em></h2>
+          <p class="lead">جلسات أرضية وعربية، وسجاد وتفاصيل تليق باستقبال ضيوفك.</p>
+        </div>
+        <div class="chapter chapter-fabrics" data-from="0.88" data-to="1.01" data-vfrom="0.87" data-vto="1.01">
+          <p class="eyebrow">الأقمشة</p>
+          <h2>اختار القماش <em>اللي يشبهك</em></h2>
+          <p class="lead">نجيب لك عينات الأقمشة لين باب بيتك، وتختار تحت إضاءة بيتك الحقيقية.</p>
+          <div class="swatches" id="swatches" role="group" aria-label="ألوان القماش"></div>
+          <p class="swatch-name" id="swatchName"></p>
+          <a href="#contact" class="btn gold">احجز استشارتك</a>
+        </div>
+
+        <div class="hint" id="hint"><span></span>اسحب للأسفل</div>
+        <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+        <a href="#services" class="skip">تخطي الجولة ←</a>
+      </div>
+    </section>
+
+    <section id="showcase" class="block dark">
+      <div class="wrap">
+        <p class="eyebrow">معرض الكنب</p>
+        <h2 class="title">شوف القطعة <em>من كل زاوية</em></h2>
+        <p class="muted-l">دوّرها بإصبعك أو بالماوس، واختار اللون وشوف القماش يتغيّر قدامك.</p>
+        <div class="viewer" id="viewer">
+          <canvas aria-label="عرض ثلاثي الأبعاد للكنب"></canvas>
+          <div class="busy" data-busy>جاري التحميل…</div>
+          <div class="vhint">↔ اسحب للتدوير</div>
+        </div>
+        <div class="vtabs" data-tabs role="group" aria-label="القطعة"></div>
+        <div class="vcolors">
+          <div class="swatches" data-colors role="group" aria-label="لون القماش"></div>
+          <p class="swatch-name" data-cname></p>
+        </div>
+        <a class="btn gold" data-order href="#" target="_blank" rel="noopener">اسأل عن هذا التصميم عبر واتساب</a>
+        <p class="credit">المجسمات من مكتبة Khronos glTF Sample Assets، تصميم Wayfair، ترخيص CC BY 4.0. تُستبدل لاحقاً بمجسمات منتجات نور.</p>
+      </div>
+    </section>
+
+    <section id="services" class="block">
+      <div class="wrap">
+        <p class="eyebrow dark">وش نقدم لك</p>
+        <h2 class="title">من أول زيارة لين <em>آخر غرزة</em></h2>
+        <div class="cards">
+          <article class="card">
+            <div class="ico">☾</div>
+            <h3>احجز استشارتك</h3>
+            <p>جلسة مع مختص يفهم ذوقك ومساحتك ويقترح عليك أنسب التصاميم والخامات.</p>
+            <a href="#contact" data-service="consultation">احجز الآن</a>
+          </article>
+          <article class="card">
+            <div class="ico">⌂</div>
+            <h3>زيارة منزلية مجانية</h3>
+            <p>نجي لك البيت، نشوف المكان ونأخذ المقاسات بدقة بدون أي التزام.</p>
+            <a href="#contact" data-service="free_visit">اطلب الزيارة</a>
+          </article>
+          <article class="card">
+            <div class="ico">❖</div>
+            <h3>نوريك الأقمشة</h3>
+            <p>نعرض عليك عينات الأقمشة والألوان في بيتك وتحت إضاءته الحقيقية قبل ما تقرر.</p>
+            <a href="#contact" data-service="fabrics">اطلب العينات</a>
+          </article>
+          <article class="card">
+            <div class="ico">⌗</div>
+            <h3>تسعيرة على مقاسك</h3>
+            <p>أرسل لنا المقاسات أو نأخذها بنفسنا، ونرجع لك بتسعيرة واضحة للقطعة.</p>
+            <a href="#contact" data-service="quote">أرسل المقاسات</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="block alt">
+      <div class="wrap">
+        <p class="eyebrow dark">كيف نشتغل</p>
+        <h2 class="title">ثلاث خطوات <em>وبيتك جاهز</em></h2>
+        <ol class="steps">
+          <li><b>١</b><h3>تواصل معنا</h3><p>واتساب أو نموذج الحجز، وبنرد عليك بسرعة.</p></li>
+          <li><b>٢</b><h3>زيارة ومقاسات</h3><p>نزورك مجاناً، نعرض الأقمشة ونقيس المكان.</p></li>
+          <li><b>٣</b><h3>تسعيرة وتفصيل</h3><p>تسعيرة واضحة، ثم تفصيل وتركيب بإتقان.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="contact" class="block contact">
+      <div class="wrap two">
+        <div>
+          <p class="eyebrow dark">ابدأ من هنا</p>
+          <h2 class="title">خلّنا نزورك <em>ونحسب لك</em></h2>
+          <p class="muted">اكتب بياناتك ونرجع لك قريب. تفضّل واتساب؟ كلمنا مباشرة.</p>
+          <a class="btn wa" id="waMain" href="#" target="_blank" rel="noopener">تواصل عبر واتساب</a>
+        </div>
+        <form id="form" class="form" novalidate>
+          <label>الاسم<input name="name" required maxlength="80" autocomplete="name" /></label>
+          <label>رقم الجوال<input name="phone" required inputmode="tel" maxlength="25" autocomplete="tel" placeholder="مثال: 5xxxxxxx" /></label>
+          <label>المنطقة<input name="area" maxlength="60" placeholder="مثال: السالمية، الجهراء…" /></label>
+          <label>وش تحتاج؟
+            <select name="service">
+              <option value="consultation">حجز استشارة</option>
+              <option value="free_visit">زيارة منزلية مجانية</option>
+              <option value="fabrics">معاينة الأقمشة</option>
+              <option value="quote">تسعيرة بالمقاسات</option>
+              <option value="other">استفسار آخر</option>
+            </select>
+          </label>
+          <label>المقاسات (اختياري)<input name="size" maxlength="200" placeholder="مثال: صالة 4×5م، ٣ ستائر" /></label>
+          <label>ملاحظات<textarea name="message" rows="3" maxlength="1000"></textarea></label>
+          <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" />
+          <button class="btn gold" type="submit">إرسال الطلب</button>
+          <p class="status" id="status" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="brand"><img src="/logo.svg" alt="" width="28" height="28" /><span>نور</span></div>
+    <p>مفروشات وستائر وديوانيات — الكويت</p>
+  </footer>
+
+  <a class="fab" id="fab" href="#" target="_blank" rel="noopener" aria-label="واتساب">
+    <svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor"><path d="M16 3C9 3 3.4 8.6 3.4 15.6c0 2.4.7 4.7 1.9 6.6L3.2 29l7-1.8c1.9 1 4 1.6 6.2 1.6 7 0 12.6-5.600 12.6-12.600S23 3 16 3zm0 22.900c-2 0-3.900-.6-5.500-1.600l-.4-.2-4.100 1.100 1.100-4-.3-.4a10.200 10.200 0 0 1-1.600-5.500C5.200 9.800 10 5.100 16 5.100s10.800 4.700 10.800 10.500S22 25.900 16 25.900zm5.900-7.700c-.3-.2-1.900-.9-2.200-1-.3-.1-.5-.2-.7.200-.2.300-.8 1-1 1.200-.2.200-.4.200-.7.100-.3-.2-1.400-.5-2.600-1.600-1-.9-1.600-1.900-1.800-2.200-.2-.3 0-.5.100-.7l.5-.5c.1-.2.200-.3.300-.5.100-.2 0-.4 0-.5l-1-2.300c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.100-.8.400-.3.300-1.100 1.100-1.100 2.700s1.200 3.100 1.300 3.300c.2.200 2.300 3.500 5.600 4.900.8.300 1.400.5 1.900.7.8.200 1.500.2 2.100.1.600-.1 1.900-.8 2.200-1.500.3-.8.300-1.400.2-1.500-.1-.2-.3-.2-.6-.4z"/></svg>
+  </a>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

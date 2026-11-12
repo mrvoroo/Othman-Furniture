@@ -1,0 +1,49 @@
+:root{--bg:#14110f;--panel:#1d1915;--panel2:#26211b;--line:#ffffff18;--ink:#f4ecdd;--muted:#a99d88;--gold:#d9b36c;--ok:#3fb06b;--warn:#e0a63a;--bad:#e5604f;--blue:#5b9bd5;
+--font:'Tajawal',system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);min-height:100vh;line-height:1.6}
+button,input,select,textarea{font:inherit;color:inherit}
+.login{min-height:100vh;display:grid;place-content:center;padding:20px}
+.login form{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:30px;width:min(360px,92vw);display:grid;gap:14px;text-align:center}
+.login h1{font-family:'Aref Ruqaa',serif;color:var(--gold);font-size:40px;line-height:1}
+.login p{color:var(--muted);font-size:14px}
+input,select,textarea{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 13px;width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);border-color:transparent}
+.btn{background:linear-gradient(135deg,#ecd29a,#c9993f);color:#241a0c;border:0;border-radius:12px;padding:11px 18px;font-weight:700;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.danger{background:transparent;color:var(--bad);border:1px solid #e5604f55}
+.btn.wa{background:#25d366;color:#06240f}
+.btn.sm{padding:7px 12px;font-size:14px;border-radius:10px}
+.err{color:var(--bad);font-size:14px;min-height:1.4em}
+header.bar{position:sticky;top:0;z-index:5;background:#14110fee;backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 18px}
+header .b{font-family:'Aref Ruqaa',serif;color:var(--gold);font-size:28px;display:flex;align-items:center;gap:10px}
+header .b small{font-family:var(--font);color:var(--muted);font-size:13px}
+.wrap{max-width:1100px;margin:0 auto;padding:18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:16px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.stat b{display:block;font-size:28px;color:var(--gold)}
+.stat span{color:var(--muted);font-size:13px}
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.tools input{flex:1;min-width:180px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px}
+.chip{white-space:nowrap;background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:6px 14px;cursor:pointer;font-size:14px}
+.chip.on{background:var(--gold);color:#241a0c;border-color:transparent;font-weight:700}
+.list{display:grid;gap:12px}
+.req{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:10px}
+.req.fresh{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.req .top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start}
+.req h3{font-size:18px}
+.req .meta{color:var(--muted);font-size:13px;display:flex;flex-wrap:wrap;gap:6px 14px}
+.tag{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:99px;padding:2px 10px;font-size:12px;color:var(--gold)}
+.src{color:var(--muted);font-size:12px}
+.msg{background:var(--panel2);border-radius:12px;padding:10px 12px;font-size:14px;white-space:pre-wrap}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row select{width:auto}
+.row textarea{min-height:42px;flex:1;min-width:200px;resize:vertical}
+.st-new{color:var(--blue)}.st-contacted{color:var(--warn)}.st-visit{color:#b98ae0}.st-quoted{color:#4fc3c3}.st-done{color:var(--ok)}
+.empty{text-align:center;color:var(--muted);padding:50px 0}
+dialog{margin:auto;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:20px;padding:22px;width:min(480px,94vw)}
+dialog::backdrop{background:#000a}
+dialog form{display:grid;gap:12px}
+dialog label{display:grid;gap:5px;font-size:14px;font-weight:700}
+.toast{position:fixed;bottom:20px;left:50%;translate:-50% 0;background:var(--gold);color:#241a0c;padding:10px 18px;border-radius:12px;font-weight:700;z-index:20}
