@@ -20,6 +20,7 @@
     <section id="tour" aria-label="جولة داخل الفيلا">
       <div class="stage" id="stage">
         <canvas id="gl" aria-label="فيلا ثلاثية الأبعاد"></canvas>
+        <video id="introVid" muted playsinline preload="auto" disablepictureinpicture aria-hidden="true"></video>
         <div class="vignette"></div>
         <div class="loader" id="loader"><img src="/logo.svg" alt="" width="64" height="64" /><span>نور</span><i class="bar"><b id="loadBar"></b></i></div>
 
@@ -45,7 +46,7 @@
           <button class="back" id="backBtn">→ الخريطة</button>
           <div class="rinfo"><h2 id="rName"></h2><p id="rBlurb"></p></div>
           <div class="designs"><span>التصميم:</span><div id="designList"></div></div>
-          <div class="ractions"><button class="btn gold sm" id="tourBtn">▶ ابدأ جولة القطع</button><a class="btn wa sm" id="orderBtn" target="_blank" rel="noopener">اطلب هذه الغرفة</a></div>
+          <div class="ractions"><button class="btn gold sm" id="tourBtn">▶ ابدأ جولة القطع</button><button class="btn ghost sm" id="realBtn">🎥 شوف غرفة حقيقية</button><a class="btn wa sm" id="orderBtn" target="_blank" rel="noopener">اطلب هذه الغرفة</a></div>
         </div>
         <div id="hot" class="overlay"></div>
         <aside class="card" id="card" hidden>
@@ -53,6 +54,7 @@
           <h3 id="cTitle"></h3><span class="tag" id="cMat"></span><p id="cText"></p>
           <div class="row"><a class="btn wa sm" id="cOrder" target="_blank" rel="noopener">اسأل عن هذه القطعة</a><button class="btn ghost sm" id="cNext">القطعة التالية ←</button></div>
         </aside>
+        <div class="real" id="realBox" hidden><video id="realVid" muted playsinline loop></video><div class="realcap"><b>صورة حقيقية</b><span id="realCap"></span></div><button class="x" id="realX" aria-label="إغلاق">×</button></div>
         <div class="pill-load" id="pillLoad" hidden></div>
         <a href="#services" class="skip">تخطي ←</a>
       </div>

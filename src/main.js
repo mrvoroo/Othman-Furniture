@@ -61,8 +61,8 @@ function boot() {
   const planView = (floor) => { const y = floor === 'u' ? FLOOR_Y.u : 0; const k = aspectK(); return { pos: new THREE.Vector3(0, y + 25 * k, 18 * k + 2), tgt: new THREE.Vector3(0, y, 0.5) }; };
   const roomDir = (r) => new THREE.Vector3(r.def.cam[0], 0, r.def.cam[1]).normalize();
   function roomView(r, yaw = 0, pitch = 0) {
-    const R = Math.max(r.size[0], r.size[1]); const dist = (R * 1.0 + 3.2) * aspectK() * (r.def.id === 'hall' || r.def.id === 'landing' ? 1.15 : 1);
-    const el = THREE.MathUtils.degToRad(40 + pitch); const dir = roomDir(r).applyAxisAngle(new THREE.Vector3(0, 1, 0), yaw);
+    const R = Math.max(r.size[0], r.size[1]); const dist = (R * 0.86 + 2.6) * aspectK() * (r.def.id === 'hall' || r.def.id === 'landing' ? 1.15 : 1);
+    const el = THREE.MathUtils.degToRad(44 + pitch); const dir = roomDir(r).applyAxisAngle(new THREE.Vector3(0, 1, 0), yaw);
     const tgt = r.center.clone().add(new THREE.Vector3(0, 0.7, 0));
     const pos = tgt.clone().add(new THREE.Vector3(dir.x * Math.cos(el) * dist, Math.sin(el) * dist, dir.z * Math.cos(el) * dist));
     return { pos, tgt };
@@ -78,6 +78,9 @@ function boot() {
   const kfTgt = [[0, 3.2, 0], [0, 2.6, 0], [0, 2.2, 0], [0, 1.9, 0], [0, 1.6, -2], [0, 1.5, -5], [0, 1.2, -6], [0, 0.5, -1], [0, 0, 0.5]];
   const posCurve = new THREE.CatmullRomCurve3(kfPos.map((v) => new THREE.Vector3(...v)), false, 'centripetal');
   const tgtCurve = new THREE.CatmullRomCurve3(kfTgt.map((v) => new THREE.Vector3(...v)), false, 'centripetal');
+  // مسار ما بعد الفيديو: من داخل المدخل يرتفع مباشرة إلى خريطة الفيلا
+  const posCurveV = new THREE.CatmullRomCurve3([[0, 1.65, 5.6], [0, 1.9, 2.4], [0, 5.5, 4.0], [0, 12, 8]].map((v) => new THREE.Vector3(...v)), false, 'centripetal');
+  const tgtCurveV = new THREE.CatmullRomCurve3([[0, 1.6, -3], [0, 1.4, -4], [0, 0.6, -1], [0, 0, 0.5]].map((v) => new THREE.Vector3(...v)), false, 'centripetal');
   const sstep = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
 
   /* ---------- تحميل التصاميم ---------- */
@@ -141,6 +144,9 @@ function boot() {
     $('#cOrder').href = waLink(`السلام عليكم، أبي أستفسر عن "${info[0]}" (${info[1]}) في ${r.def.name} من معرض نور.`);
     $('#card').hidden = false;
   }
+  const REAL = { hall: 'المدخل', majlis: 'مجلس/صالة', dining: 'غرفة طعام', family: 'غرفة معيشة', guest: 'غرفة ضيوف', master: 'غرفة نوم رئيسية', boys: 'غرفة شباب', girls: 'غرفة نوم', kids: 'غرفة صغيرة' };
+  $('#realBtn').onclick = () => { const id = S.room; if (!REAL[id]) return; const v = $('#realVid'); const B = import.meta.env.BASE_URL; v.poster = `${B}media/rooms/${id}.jpg`; v.src = `${B}media/rooms/${id}.mp4`; $('#realCap').textContent = `لقطة حقيقية لغرفة مشابهة (${REAL[id]}) — للاستلهام، وغرفتك تُفصَّل على مقاسك`; $('#realBox').hidden = false; v.play().catch(() => {}); };
+  $('#realX').onclick = () => { $('#realBox').hidden = true; $('#realVid').pause(); };
   $('#cardX').onclick = () => { $('#card').hidden = true; S.focus = null; };
   $('#cNext').onclick = () => { const l = S.hotList || []; if (!l.length) return; S.hotIdx = (S.hotIdx + 1) % l.length; focusItem(l[S.hotIdx]); };
   $('#tourBtn').onclick = () => { const l = S.hotList || []; if (!l.length) return; S.hotIdx = (S.hotIdx + 1) % l.length; focusItem(l[S.hotIdx]); };
@@ -182,6 +188,17 @@ function boot() {
   function resize() { const w = canvas.clientWidth, h = canvas.clientHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.fov = camera.aspect < 0.8 ? 58 : 44; camera.updateProjectionMatrix(); }
   resize(); addEventListener('resize', () => { resize(); calc(); });
 
+  /* مقدمة بفيديو حقيقي: السكرول يحرّك الفيديو، ثم ينتقل للبيت ثلاثي الأبعاد */
+  const vid = $('#introVid'); let VIDEO = false; const VP = 0.40; let lastVT = -1;
+  (async () => {
+    const BASE = import.meta.env.BASE_URL; const src = BASE + (mobile ? 'media/intro-m.mp4' : 'media/intro.mp4');
+    try {
+      const h = await fetch(src, { method: 'HEAD' }); if (!h.ok || !(h.headers.get('content-type') || '').includes('video')) return;
+      vid.src = src; vid.poster = BASE + 'media/intro-poster.jpg'; vid.load();
+      await new Promise((res, rej) => { vid.onloadedmetadata = res; vid.onerror = rej; setTimeout(rej, 15000); });
+      VIDEO = true;
+    } catch { VIDEO = false; }
+  })();
   const chapters = $$('.chapter'); const planUI = $('#planUI'), roomUI = $('#roomUI');
   const v3 = new THREE.Vector3();
   let prev = performance.now(), slow = 0, firstFrame = true, lastMode = '';
@@ -199,15 +216,18 @@ function boot() {
 
     // الظهور
     const intro = S.mode === 'intro';
-    house.exterior.visible = intro && q < 0.58; house.roof.visible = intro && q < 0.58;
+    const vOn = VIDEO && intro && S.sp < VP + 0.08;
+    house.exterior.visible = intro && !VIDEO && q < 0.58; house.roof.visible = intro && !VIDEO && q < 0.58;
     const showUpper = S.mode !== 'intro' && S.floor === 'u';
     house.upper.visible = showUpper; house.ground.visible = true;
-    house.setDoor(sstep(0.18, 0.4, q));
+    house.setDoor(VIDEO ? 1 : sstep(0.18, 0.4, q));
+    vid.classList.toggle('on', vOn); if (vOn) { vid.style.opacity = String(1 - sstep(VP, VP + 0.07, S.sp)); const dur = vid.duration || 12; const tt = clamp(S.sp / VP) * (dur - 0.05); if (Math.abs(tt - lastVT) > 0.02 && !vid.seeking) { vid.currentTime = tt; lastVT = tt; } } else vid.style.opacity = '0';
 
     // الكاميرا
     if (S.mode === 'intro') {
-      const pp = posCurve.getPoint(q * 0.999), tt = tgtCurve.getPoint(q * 0.999);
-      if (q > 0.8) { const pv = planView('g'); const k = sstep(0.8, 1, q); pp.lerp(pv.pos, k); tt.lerp(pv.tgt, k); } // يطابق الخريطة تماماً
+      const ql = VIDEO ? clamp((S.sp - VP) / (PLAN_AT - VP)) : q; const ct = ql * 0.999;
+      const pp = (VIDEO ? posCurveV : posCurve).getPoint(ct), tt = (VIDEO ? tgtCurveV : tgtCurve).getPoint(ct);
+      if (ql > 0.8) { const pv = planView('g'); const k = sstep(0.8, 1, ql); pp.lerp(pv.pos, k); tt.lerp(pv.tgt, k); } // يطابق الخريطة تماماً
       rig.set(pp, tt, true); rig.update(dt);
     } else if (S.mode === 'plan') { const pv = planView(S.floor); rig.set(pv.pos, pv.tgt); rig.update(dt, 2.6); }
     else {

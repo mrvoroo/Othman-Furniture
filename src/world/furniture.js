@@ -57,7 +57,7 @@ function makeTV(ctx) {
   return g;
 }
 function makeRug(it) {
-  const g = new THREE.Group(); const m = pbr('quatrefoil_jacquard_fabric', { tint: new THREE.Color(it.color), normal: 0.7 });
+  const g = new THREE.Group(); const m = pbr('quatrefoil_jacquard_fabric', { tint: new THREE.Color(it.color).multiplyScalar(1.7), normal: 0.7 });
   const geo = new THREE.PlaneGeometry(it.w, it.d); scaleUV(geo, it.w / 0.8, it.d / 0.8);
   const r = new THREE.Mesh(geo, m); r.rotation.x = -Math.PI / 2; r.position.y = 0.014; r.receiveShadow = true; g.add(r);
   const bg = new THREE.PlaneGeometry(it.w + 0.18, it.d + 0.18); const bm = new THREE.Mesh(bg, new THREE.MeshStandardMaterial({ color: new THREE.Color(it.color).multiplyScalar(0.45), roughness: 1 }));

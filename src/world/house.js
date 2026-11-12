@@ -89,7 +89,7 @@ export function buildHouse({ mobile }) {
   sky.colorSpace = THREE.SRGBColorSpace;
   const glowMat = new THREE.MeshBasicMaterial({ map: sky, toneMapped: false });
   const glassMat = new THREE.MeshStandardMaterial({ color: 0x1f2a36, metalness: 0.6, roughness: 0.15 });
-  const fabric = (hex) => pbr('quatrefoil_jacquard_fabric', { tint: new THREE.Color(hex), side: THREE.DoubleSide, normal: 0.8 });
+  const fabric = (hex) => pbr('quatrefoil_jacquard_fabric', { tint: new THREE.Color(hex), side: THREE.FrontSide, normal: 0.8 });
   const sideInfo = { s: { axis: 'z', at: BOUNDS.z1, n: -1 }, n: { axis: 'z', at: BOUNDS.z0, n: +1 }, e: { axis: 'x', at: BOUNDS.x1, n: -1 }, w: { axis: 'x', at: BOUNDS.x0, n: +1 } };
   function curtainPair(wd, hd, mat) {
     const g = new THREE.Group(); const items = [];
