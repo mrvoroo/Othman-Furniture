@@ -8,6 +8,7 @@ const GOLD = new THREE.MeshStandardMaterial({ color: 0xc9a14f, metalness: 0.9, r
 /** حديقة كاملة: ممر ونافورة وأشجار وشجيرات وأعمدة إضاءة ومسبح خلفي */
 export function buildGarden(world, { mobile }) {
   const g = new THREE.Group(); world.add(g);
+  const trees = new THREE.Group(); g.add(trees); // تُخفى وأنت داخل غرفة حتى لا تحجب الكاميرا
   const pavers = pbr('concrete_pavers', { tint: 0xeadfc8, normal: 0.9 });
   const flat = (geo, mat, x, y, z) => { const m = new THREE.Mesh(geo, mat); m.rotation.x = -Math.PI / 2; m.position.set(x, y, z); m.receiveShadow = true; g.add(m); return m; };
   const box = (w, h, d, mat, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); m.castShadow = m.receiveShadow = true; g.add(m); return m; };
@@ -42,18 +43,18 @@ export function buildGarden(world, { mobile }) {
   pool.position.y = -0.02; for (const [w, d, x, z] of [[9.6, 0.3, 0, -15.75], [9.6, 0.3, 0, -11.25], [0.3, 4.8, -4.65, -13.5], [0.3, 4.8, 4.65, -13.5]]) box(w, 0.12, d, stone(), x, 0.0, z);
 
   // ---- مجسمات حقيقية ----
-  const place = async (id, { x, z, h, s = 1, ry = 0, y = 0, shadow = true }) => {
+  const place = async (id, { x, z, h, s = 1, ry = 0, y = 0, shadow = true, parent = g }) => {
     let src; try { src = await loadModel(id); } catch { return; }
     const o = src.clone(true); const wrap = new THREE.Group(); wrap.add(o);
     tmp.setFromObject(o); const size = tmp.getSize(new THREE.Vector3()); const sc = h ? h / size.y : s; wrap.scale.setScalar(sc);
     tmp.setFromObject(wrap); const c = tmp.getCenter(new THREE.Vector3()); o.position.set(-c.x / sc, -tmp.min.y / sc, -c.z / sc);
-    const holder = new THREE.Group(); holder.add(wrap); holder.position.set(x, y, z); holder.rotation.y = ry; holder.traverse((m) => { if (m.isMesh) { m.castShadow = shadow; m.receiveShadow = true; } }); g.add(holder);
+    const holder = new THREE.Group(); holder.add(wrap); holder.position.set(x, y, z); holder.rotation.y = ry; holder.traverse((m) => { if (m.isMesh) { m.castShadow = shadow; m.receiveShadow = true; } }); parent.add(holder);
     return holder;
   };
   const rnd = (i) => { const t = Math.sin(i * 127.1) * 43758.5453; return t - Math.floor(t); };
   // أشجار ونخيل
   [[-15, 12, 7.5, 'island_tree_02'], [15, 11, 8.2, 'island_tree_01'], [-17, 1, 6.8, 'island_tree_01'], [17, -3, 7.2, 'island_tree_02'], [-14, -10, 7.4, 'island_tree_02'], [14, -9, 7.0, 'island_tree_01'], [-9, 21, 6.2, 'island_tree_01'], [9, 21, 6.4, 'island_tree_02']]
-    .forEach(([x, z, h, id], i) => place(id, { x, z, h, ry: rnd(i) * 6.28 }));
+    .forEach(([x, z, h, id], i) => place(id, { x, z, h, ry: rnd(i) * 6.28, parent: trees }));
   // شجيرات على جانبي الممر وحول الفيلا
   const shrubs = ['shrub_02', 'shrub_03', 'shrub_04', 'shrub_02'];
   for (let i = 0; i < 9; i++) { for (const sx of [-1, 1]) place(shrubs[(i + (sx > 0 ? 1 : 0)) % 4], { x: sx * (2.6 + i * 1.8 + (i > 3 ? 0.4 : 0)), z: 8.6, h: 0.9 + rnd(i * sx) * 0.4, ry: rnd(i + 3) * 6.28 }); }
@@ -74,5 +75,5 @@ export function buildGarden(world, { mobile }) {
   place('pachira_aquatica_01', { x: -6.5, z: -12, h: 1.6 }); place('pachira_aquatica_01', { x: 6.5, z: -12, h: 1.6 });
 
   const anim = (t) => { wat.position.y = 0.62 + Math.sin(t * 1.6) * 0.004; jet.scale.y = 1 + Math.sin(t * 6) * 0.06; };
-  return { group: g, anim };
+  return { group: g, anim, trees };
 }

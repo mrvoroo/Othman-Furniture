@@ -247,7 +247,7 @@ function boot() {
     if (S.mode === 'room') hotEls.forEach(({ el, it }) => { project(it.anchor, el); el.style.left = 0; el.style.top = 0; });
 
     // حركة
-    house.updateCurtains(t); garden.anim(t);
+    house.updateCurtains(t); garden.anim(t); garden.trees.visible = S.mode !== 'room';
     ctx.updatables.forEach((u) => { u.t += dt; if (u.t >= u.every) { u.t = 0; u.fn(t); } });
     for (let i = ctx.pops.length - 1; i >= 0; i--) { const o = ctx.pops[i]; o.userData.pop += dt * 2.4; const k = clamp(o.userData.pop - (o.id % 7) * 0.04); const e = 1 - Math.pow(1 - k, 3); o.scale.setScalar(Math.max(0.001, e)); if (k >= 1) ctx.pops.splice(i, 1); }
     if (ctx.pops.length || shadowDirty) { renderer.shadowMap.needsUpdate = true; shadowDirty = false; }
