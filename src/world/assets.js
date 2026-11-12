@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 const B = import.meta.env.BASE_URL;
+const BIN = (typeof window !== 'undefined' && window.__BIN_EXT__) || 'glb'; // الاستضافات التي لا تقدّم glb تستخدم امتداداً بديلاً
 const texLoader = new THREE.TextureLoader();
 const texCache = new Map();
 let maxAniso = 4;
@@ -32,7 +33,7 @@ const pump = () => { while (active < 3 && queue.length) { const j = queue.shift(
 export function loadModel(id) {
   if (modelCache.has(id)) return modelCache.get(id);
   const p = new Promise((res, rej) => {
-    queue.push(() => loader.loadAsync(`${B}models/${id}.glb`).then((g) => { g.scene.traverse((o) => { if (o.isMesh) { o.castShadow = o.receiveShadow = true; } }); res(g.scene); }, rej));
+    queue.push(() => loader.loadAsync(`${B}models/${id}.${BIN}`).then((g) => { g.scene.traverse((o) => { if (o.isMesh) { o.castShadow = o.receiveShadow = true; } }); res(g.scene); }, rej));
     pump();
   });
   modelCache.set(id, p); return p;

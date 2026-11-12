@@ -39,7 +39,7 @@ function boot() {
   const camera = new THREE.PerspectiveCamera(44, 1, 0.1, 300);
   const rig = new Rig(camera);
 
-  new RGBELoader().load(import.meta.env.BASE_URL + 'hdr/brown_photostudio_02.hdr', (hdr) => {
+  new RGBELoader().load(import.meta.env.BASE_URL + 'hdr/brown_photostudio_02.' + (window.__BIN_EXT__ || 'hdr'), (hdr) => {
     hdr.mapping = THREE.EquirectangularReflectionMapping;
     scene.environment = new THREE.PMREMGenerator(renderer).fromEquirectangular(hdr).texture; scene.environmentIntensity = 1.0; ready.hdr = true; maybeReady();
   });
